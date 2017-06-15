@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="staging.newoffersweb.com">
+  <component name="PublishConfigData" serverName="staging.newoffersweb.com" uploadOnCheckin="56742dd7-9073-46cf-abca-d0c6095b9877">
     <serverData>
       <paths name="staging.newoffersweb.com">
         <serverdata>
@@ -10,5 +10,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="staging.newoffersweb.com" />
   </component>
 </project>
