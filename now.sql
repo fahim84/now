@@ -16,6 +16,55 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`now` /*!40100 DEFAULT CHARACTER SET utf
 
 USE `now`;
 
+/*Table structure for table `countries` */
+
+DROP TABLE IF EXISTS `countries`;
+
+CREATE TABLE `countries` (
+  `country_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `country` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `countries` */
+
+/*Table structure for table `coupons` */
+
+DROP TABLE IF EXISTS `coupons`;
+
+CREATE TABLE `coupons` (
+  `coupon_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(32) NOT NULL,
+  `discount` decimal(4,2) NOT NULL DEFAULT '0.00',
+  `discount_percent` decimal(2,0) NOT NULL DEFAULT '0',
+  `quantity` bigint(20) NOT NULL DEFAULT '0',
+  `expiry_date` datetime DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `redeemable_role_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '0=all',
+  PRIMARY KEY (`coupon_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+/*Data for the table `coupons` */
+
+insert  into `coupons`(`coupon_id`,`code`,`discount`,`discount_percent`,`quantity`,`expiry_date`,`status`,`redeemable_role_id`) values (8,'3de23',23.00,0,0,'2015-05-05 00:00:00',0,0);
+insert  into `coupons`(`coupon_id`,`code`,`discount`,`discount_percent`,`quantity`,`expiry_date`,`status`,`redeemable_role_id`) values (10,'83691',23.00,0,0,'2015-05-13 00:00:00',0,0);
+insert  into `coupons`(`coupon_id`,`code`,`discount`,`discount_percent`,`quantity`,`expiry_date`,`status`,`redeemable_role_id`) values (11,'6dbd2',10.00,0,0,'2015-05-29 00:00:00',0,0);
+insert  into `coupons`(`coupon_id`,`code`,`discount`,`discount_percent`,`quantity`,`expiry_date`,`status`,`redeemable_role_id`) values (12,'147eb',20.00,0,0,'2015-10-08 00:00:00',0,0);
+insert  into `coupons`(`coupon_id`,`code`,`discount`,`discount_percent`,`quantity`,`expiry_date`,`status`,`redeemable_role_id`) values (15,'0e4a2',30.00,0,0,'2015-11-13 00:00:00',0,0);
+
+/*Table structure for table `coupons_used` */
+
+DROP TABLE IF EXISTS `coupons_used`;
+
+CREATE TABLE `coupons_used` (
+  `coupon_id` bigint(20) NOT NULL DEFAULT '0',
+  `user_id` bigint(20) NOT NULL DEFAULT '0',
+  `offer_id` bigint(20) NOT NULL DEFAULT '0',
+  `used_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `coupons_used` */
+
 /*Table structure for table `feedbacks` */
 
 DROP TABLE IF EXISTS `feedbacks`;
@@ -240,6 +289,37 @@ CREATE TABLE `offers_media` (
 
 /*Data for the table `offers_media` */
 
+/*Table structure for table `offers_rates` */
+
+DROP TABLE IF EXISTS `offers_rates`;
+
+CREATE TABLE `offers_rates` (
+  `offer_rate_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `country_id` bigint(20) DEFAULT '0',
+  `location_and_interest_rate` decimal(2,2) NOT NULL DEFAULT '0.00',
+  `non_interest_rate` decimal(2,2) NOT NULL DEFAULT '0.00',
+  `extra_day_rate` decimal(2,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`offer_rate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `offers_rates` */
+
+/*Table structure for table `offers_rates_payments` */
+
+DROP TABLE IF EXISTS `offers_rates_payments`;
+
+CREATE TABLE `offers_rates_payments` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `offer_rate_id` bigint(20) NOT NULL DEFAULT '0',
+  `offer_id` bigint(20) NOT NULL DEFAULT '0',
+  `interest_and_location_users_quantity` bigint(20) NOT NULL DEFAULT '0',
+  `location_users_quantity` bigint(20) NOT NULL DEFAULT '0',
+  `extra_days_users_quantity` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `offers_rates_payments` */
+
 /*Table structure for table `offers_statuses` */
 
 DROP TABLE IF EXISTS `offers_statuses`;
@@ -256,6 +336,21 @@ insert  into `offers_statuses`(`status_id`,`status`) values (1,'Draft');
 insert  into `offers_statuses`(`status_id`,`status`) values (2,'Scheduled');
 insert  into `offers_statuses`(`status_id`,`status`) values (3,'Sent');
 insert  into `offers_statuses`(`status_id`,`status`) values (4,'Deleted');
+
+/*Table structure for table `payments` */
+
+DROP TABLE IF EXISTS `payments`;
+
+CREATE TABLE `payments` (
+  `payment_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `offer_id` bigint(20) NOT NULL DEFAULT '0',
+  `coupon_id` bigint(20) NOT NULL DEFAULT '0',
+  `amount` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `date_created` datetime DEFAULT NULL,
+  PRIMARY KEY (`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `payments` */
 
 /*Table structure for table `roles` */
 
@@ -408,29 +503,6 @@ CREATE TABLE `users_ratings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `users_ratings` */
-
-/*Table structure for table `voucher` */
-
-DROP TABLE IF EXISTS `voucher`;
-
-CREATE TABLE `voucher` (
-  `voucherId` int(11) NOT NULL AUTO_INCREMENT,
-  `voucherCode` varchar(100) NOT NULL,
-  `voucherDiscount` float DEFAULT '0',
-  `voucherUsed` int(11) DEFAULT '0',
-  `voucherExpiryDate` date NOT NULL,
-  `fkUserIdRedeem` int(11) DEFAULT NULL,
-  `voucherUsedDate` date DEFAULT NULL,
-  PRIMARY KEY (`voucherId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
-
-/*Data for the table `voucher` */
-
-insert  into `voucher`(`voucherId`,`voucherCode`,`voucherDiscount`,`voucherUsed`,`voucherExpiryDate`,`fkUserIdRedeem`,`voucherUsedDate`) values (8,'3de23',23,0,'2015-05-05',NULL,NULL);
-insert  into `voucher`(`voucherId`,`voucherCode`,`voucherDiscount`,`voucherUsed`,`voucherExpiryDate`,`fkUserIdRedeem`,`voucherUsedDate`) values (10,'83691',23,0,'2015-05-13',NULL,NULL);
-insert  into `voucher`(`voucherId`,`voucherCode`,`voucherDiscount`,`voucherUsed`,`voucherExpiryDate`,`fkUserIdRedeem`,`voucherUsedDate`) values (11,'6dbd2',10,0,'2015-05-29',NULL,NULL);
-insert  into `voucher`(`voucherId`,`voucherCode`,`voucherDiscount`,`voucherUsed`,`voucherExpiryDate`,`fkUserIdRedeem`,`voucherUsedDate`) values (12,'147eb',20,0,'2015-10-08',NULL,NULL);
-insert  into `voucher`(`voucherId`,`voucherCode`,`voucherDiscount`,`voucherUsed`,`voucherExpiryDate`,`fkUserIdRedeem`,`voucherUsedDate`) values (15,'0e4a2',30,0,'2015-11-13',NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
