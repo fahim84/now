@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.7.18-0ubuntu0.16.04.1 : Database - now
+MySQL - 5.7.19-0ubuntu0.16.04.1 : Database - now
 *********************************************************************
 */
 
